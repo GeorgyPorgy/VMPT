@@ -66,6 +66,7 @@ namespace J2534DotNet
                 tempDevice.SCI_A_TRANSChannels = (int)deviceKey.GetValue("SCI_A_TRANS", 0);
                 tempDevice.SCI_B_ENGINEChannels = (int)deviceKey.GetValue("SCI_B_ENGINE", 0);
                 tempDevice.SCI_B_TRANSChannels = (int)deviceKey.GetValue("SCI_B_TRANS", 0);
+                tempDevice.DiCECompatible = (int)deviceKey.GetValue("DiCECompatible", 0);
 
                 j2534Devices.Add(tempDevice);
             }

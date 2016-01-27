@@ -42,6 +42,7 @@ namespace J2534DotNet
         public int SCI_A_TRANSChannels { get; set; }
         public int SCI_B_ENGINEChannels { get; set; }
         public int SCI_B_TRANSChannels { get; set; }
+        public int DiCECompatible { get; set; }
 
         public bool IsCANSupported
         {
@@ -91,6 +92,11 @@ namespace J2534DotNet
         public bool IsSCI_B_TRANSSupported
         {
             get { return (SCI_B_TRANSChannels > 0 ? true : false); }
+        }
+
+        public bool IsDiCECompatible
+        {
+            get { return (DiCECompatible > 0 ? true : false);  }
         }
 
         public override string ToString()
