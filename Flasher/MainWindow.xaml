@@ -5,19 +5,68 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Flasher"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
+        Title="DiCE CAN sniffer" Height="342.333" Width="502" Loaded="window_Loaded" ResizeMode="CanMinimize">
+    <Grid x:Name="frame" Margin="0,0,-6,0">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black" Offset="0"/>
+                <GradientStop Color="#FF3497FB" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="253*"/>
+            <ColumnDefinition Width="414*"/>
+            <ColumnDefinition Width="95*"/>
         </Grid.ColumnDefinitions>
-        <ComboBox x:Name="InterfaceComboBox" HorizontalAlignment="Left" Margin="30,10,0,0" VerticalAlignment="Top" Width="132" Height="22" SelectedIndex="0" ItemsSource="{Binding List}" DisplayMemberPath="Name"/>
-        <RichTextBox x:Name="richTextBox" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="300" Margin="204,10,0,0" VerticalAlignment="Top" Width="303">
+
+        <ComboBox x:Name="InterfaceComboBox" HorizontalAlignment="Left" Margin="349,10,0,0" VerticalAlignment="Top" Width="122" Height="26" SelectedIndex="0" ItemsSource="{Binding List}" DisplayMemberPath="Name" Loaded="InterfaceComboBox_Loaded" RenderTransformOrigin="0.527,0.775" Grid.ColumnSpan="2" BorderBrush="#FFFDFDFD" Background="{x:Null}" Foreground="#FFFBFBF7" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+        <RichTextBox x:Name="StatusBox" HorizontalAlignment="Left" Height="288" Margin="10,10,0,0" VerticalAlignment="Top" Width="325" Block.LineHeight="12" IsReadOnly="True" BorderThickness="4,2" RenderTransformOrigin="0.5,0.5" Background="{x:Null}">
+            <RichTextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.194"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </RichTextBox.RenderTransform>
+            <RichTextBox.BorderBrush>
+                <LinearGradientBrush EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
+                    <GradientStop Color="#FFABADB3" Offset="0.05"/>
+                    <GradientStop Color="#FFE2E3EA" Offset="0.07"/>
+                    <GradientStop Color="#FFE3E9EF" Offset="1"/>
+                </LinearGradientBrush>
+            </RichTextBox.BorderBrush>
             <FlowDocument>
                 <Paragraph>
-                    <Run Text="RichTextBox"/>
+                    <Run Text=""/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
+        <Button x:Name="btn_Action" Content="Button" HorizontalAlignment="Left" Margin="352,261,0,0" VerticalAlignment="Top" Width="122" Height="34" Click="btn_Action_Click" Grid.ColumnSpan="2" BorderBrush="Black" Background="{x:Null}" Foreground="Black" OpacityMask="Black"/>
+        <RadioButton x:Name="rbtn_125K" Content="125Kbps" HorizontalAlignment="Left" Margin="352,101,0,0" VerticalAlignment="Top" Width="80" GroupName="Badrate" Grid.ColumnSpan="2" Foreground="#FFF9F5F5" HorizontalContentAlignment="Center">
+            <RadioButton.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </RadioButton.Background>
+        </RadioButton>
+        <RadioButton x:Name="rbtn_250K" Content="250Kbps" HorizontalAlignment="Left" Margin="352,117,0,0" VerticalAlignment="Top" Width="80" GroupName="Badrate" Grid.ColumnSpan="2" Foreground="#FFF9F5F5" HorizontalContentAlignment="Center">
+            <RadioButton.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </RadioButton.Background>
+        </RadioButton>
+        <RadioButton x:Name="rbtn_500K" Content="500Kbps" HorizontalAlignment="Left" Margin="352,133,0,0" VerticalAlignment="Top" Width="80" GroupName="Badrate" Grid.ColumnSpan="2" Foreground="#FFF9F5F5" HorizontalContentAlignment="Center">
+            <RadioButton.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </RadioButton.Background>
+        </RadioButton>
+        <Label x:Name="label" Content="CAN Baudrate" HorizontalAlignment="Left" Margin="349,73,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="88" Height="23" RenderTransformOrigin="0.505,0.522" Background="{x:Null}" Foreground="#FFFBFBFB"/>
 
     </Grid>
 </Window>
