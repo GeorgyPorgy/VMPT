@@ -22,7 +22,10 @@ namespace Flasher
 
     public partial class MainWindow : Window
     {
-        public bool _action;
+        private bool _action;
+        private J2534 passThru;
+        private FlowDocument mcFlowDoc = new FlowDocument();
+        private Paragraph para = new Paragraph();
 
         public MainWindow()
         {
@@ -45,8 +48,6 @@ namespace Flasher
                 rbtn_250K.Focusable = false;
                 rbtn_500K.IsHitTestVisible = false;
                 rbtn_500K.Focusable = false;
-
-                StatusBox.Document.Blocks.Clear();
 
             }
             else
@@ -91,28 +92,59 @@ namespace Flasher
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
             _action = false;
+            this.StatusBox.Document.Blocks.Clear();
             this.SetButtonState();
             rbtn_125K.IsChecked = true;            
         }
 
-        private void btn_Action_Click(object sender, RoutedEventArgs e)
+        public delegate void UpdateTextCallback(string message);
+        private void UpdateText(string message)
         {
-            _action = _action ^ true;
-            this.SetButtonState();
+            para.Inlines.Add(message + "\n");
+            mcFlowDoc.Blocks.Add(para);
+            this.StatusBox.Document = mcFlowDoc;
+            this.StatusBox.ScrollToEnd();
         }
 
-        //private void InterfaceComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //J2534 passThru = new J2534();
+        private void btn_Action_Click(object sender, RoutedEventArgs e)
+        {
 
-        //Load the library of selected interface
-        //passThru.LoadLibrary((J2534Device)(sender as ComboBox).SelectedItem);
+            if (!_action)
+            {
+                passThru = new J2534();
 
-        //this.StatusBox.AppendText("\nSelected Interface : "+((J2534Device)(sender as ComboBox).SelectedItem).Name);
+                this.UpdateText("\n--- Session start " + DateTime.Now.ToString() + " --- ");
+                //this.StatusBox.Dispatcher.Invoke(new UpdateTextCallback(this.UpdateText), new object[] { "\n---Session start " + DateTime.Now.ToString() + " ---" });
 
-        // When we are done with the device, we can free the library.
-        //passThru.FreeLibrary();
-        //}
+                this.UpdateText(((J2534Device)InterfaceComboBox.SelectedItem).Name + " interface being used");
+                //this.StatusBox.Dispatcher.Invoke(new UpdateTextCallback(this.UpdateText), new object[] { ((J2534Device)InterfaceComboBox.SelectedItem).Name + " interface being used" });
+                if (!passThru.LoadLibrary((J2534Device)InterfaceComboBox.SelectedItem))
+                {
+                    this.UpdateText("Failed to load interface library!");
+                    //this.StatusBox.Dispatcher.Invoke(new UpdateTextCallback(this.UpdateText), new object[] { "Failed to load interface library!" });
+                    _action = false;
+                }
+
+                _action = true;
+            }
+            else
+            {
+                this.UpdateText(((J2534Device)InterfaceComboBox.SelectedItem).Name + " interface is released");
+                //this.StatusBox.Dispatcher.Invoke(new UpdateTextCallback(this.UpdateText), new object[] { ((J2534Device)InterfaceComboBox.SelectedItem).Name + " interface is released" });
+                if (!passThru.FreeLibrary())
+                {
+                    this.UpdateText("Failed to unload interface library!");
+                    //this.StatusBox.Dispatcher.Invoke(new UpdateTextCallback(this.UpdateText), new object[] { "Failed to unload interface library!" });
+                }
+
+                _action = false;
+            }
+
+            //if (!_action) { this.StatusBox.Dispatcher.Invoke(new UpdateTextCallback(this.UpdateText), new object[] { "---Session end " + DateTime.Now.ToString() + " ---" }); }
+            if (!_action) { this.UpdateText("--- Session end " + DateTime.Now.ToString() + " ---" ); }
+
+            this.SetButtonState();
+        }
 
     }
 }
